@@ -1,9 +1,11 @@
 package ma.enset.digital_banking;
 
+import ma.enset.digital_banking.entities.AccountOperation;
 import ma.enset.digital_banking.entities.CurrentAccount;
 import ma.enset.digital_banking.entities.Customer;
 import ma.enset.digital_banking.entities.SavingAccount;
 import ma.enset.digital_banking.enums.AccountStatus;
+import ma.enset.digital_banking.enums.OperationType;
 import ma.enset.digital_banking.repositories.AccountOperationRepository;
 import ma.enset.digital_banking.repositories.BankAccountRepository;
 import ma.enset.digital_banking.repositories.CustomerRepository;
@@ -13,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -36,6 +39,7 @@ public class DigitalBankingApplication {
 
             customerRepository.findAll().forEach(cust ->{
                 CurrentAccount currentAccount = new CurrentAccount();
+                currentAccount.setId(UUID.randomUUID().toString());
                 currentAccount.setBalance(Math.random()*90000);
                 currentAccount.setCreationDate(new Date());
                 currentAccount.setStatus(AccountStatus.CREATED);
@@ -44,12 +48,24 @@ public class DigitalBankingApplication {
                 bankAccountRepository.save(currentAccount);
 
                 SavingAccount savingAccount = new SavingAccount();
+                savingAccount.setId(UUID.randomUUID().toString());
                 savingAccount.setBalance(Math.random()*90000);
                 savingAccount.setCreationDate(new Date());
                 savingAccount.setStatus(AccountStatus.CREATED);
                 savingAccount.setCustomer(cust);
                 savingAccount.setInterestRate(5.5);
                 bankAccountRepository.save(savingAccount);
+            });
+
+            bankAccountRepository.findAll().forEach(acc -> {
+                for(int i=0; i<5; i++){
+                    AccountOperation accountOperation = new AccountOperation();
+                    accountOperation.setDate(new Date());
+                    accountOperation.setAmount(Math.random()*12000);
+                    accountOperation.setType(Math.random()>0.5? OperationType.DEBIT:OperationType.CREDIT);
+                    accountOperation.setBankAccount(acc);
+                    accountOperationRepository.save(accountOperation);
+                }
             });
         };
     }
