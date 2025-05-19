@@ -79,7 +79,7 @@ public class DigitalBankingApplication {
         };
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner commandLineRunner(BankAccountService bankAccountService){
         return args -> {
             Stream.of("Hassan", "Yassine", "Aicha").forEach(name ->{
