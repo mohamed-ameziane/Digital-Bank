@@ -1,121 +1,165 @@
-# Digital Bank Springboot Application | Backend
+# Digital Bank Spring Boot Application | Backend
 
 ## Project Description
-This application is a replica of a virtual bank application that shows the different operations that could be done in a digital bank such as CRUD of the customers and their accounts. It is build with Springboot, a framework that is designed to simplify the development of Java-based applications, offering RESTful services and interacts with relational databases for persistent storage.
+
+This application simulates a digital banking system with full CRUD functionalities for managing customers and their accounts. Built using **Spring Boot**, it leverages RESTful APIs and connects to a **MySQL** database for data persistence. It provides a backend structure for managing core banking operations such as customer creation, account handling, and transaction processing (credit, debit, transfer).
 
 ## Technologies Used
-- Java :
-- Springboot:
-- Spring Data JPA:
-- MySQL:
-- Maven:
-- For the frontend part, we used Angular (https://github.com/mohamed-ameziane/Digital-Bank-Frontend)
+
+- **Java** — Programming language
+- **Spring Boot** — Backend framework
+- **Spring Data JPA** — ORM for database access
+- **MySQL** — Relational database
+- **Maven** — Dependency and project management tool
+- **Angular** — Frontend (see [Frontend GitHub Repo](https://github.com/mohamed-ameziane/Digital-Bank-Frontend))
+
+---
 
 ## Architecture
-The application type is monolithic...
-### 1-Application Architecture
+
+This application follows a **monolithic** architecture.
+
+### 1- Application Architecture
+
 ![Diagram of system architecture](images/Architecture.png)
 
 ### 2- Application Layers
-- Controller Layer (REST APIs)
-- Service Layer (Business Logic)
-- Repository Layer (Data Access)
-- Madel Layer (Entities)
+
+- **Controller Layer** – Exposes REST endpoints
+- **Service Layer** – Contains business logic
+- **Repository Layer** – Manages data access
+- **Model Layer** – Represents entity models
 
 ### 3- Database Schema
+
 ![Diagram of classes](images/Class.png)
+
+---
 
 ## Features and Functionalities
 
 ### CRUD Operations
 
-The application provides complete CRUD (Create, Read, Update, Delete) functionalities for managing customer and account data through RESTful web services.
+The application offers complete CRUD operations for managing customers and their bank accounts via REST APIs.
 
 **Customer Operations:**
 
-* **Create:** Add a new customer via `POST /customers`.
-* **Read:**
-  * Get all customers: `GET /customers`
-  * Get customer by ID: `GET /customers/{id}`
-  * Search customers (with filtering): `GET /customers/search`
-* **Update:** Modify an existing customer using `PUT /customers/{customerId}`.
-* **Delete:** Remove a customer via `DELETE /customers/{id}`.
+- **Create:** `POST /customers`
+- **Read:**
+  - All customers: `GET /customers`
+  - By ID: `GET /customers/{id}`
+  - Search: `GET /customers/search`
+- **Update:** `PUT /customers/{customerId}`
+- **Delete:** `DELETE /customers/{id}`
+
+---
 
 ### Business Logic
 
-The business layer encapsulates the core logic for handling banking operations. It ensures:
+The service layer ensures:
 
-* **Data integrity** when updating or deleting customer and account information.
-* **Validation** of account operations such as transfers, debits, and credits.
-* **Consistency** in transaction history and account balances.
-* **Exception handling** for operations on non-existent accounts or insufficient funds.
+- **Data integrity** when modifying customers/accounts
+- **Validation** of operations (credit, debit, transfer)
+- **Consistency** in account balances and transaction history
+- **Exception handling** for invalid operations
+
+---
 
 ### API Endpoints
 
-Below are the available API endpoints grouped by controller:
-
-#### Customer REST Controller (`customer-rest-controller`)
+#### Customer REST Controller
 
 | Method   | Endpoint                  | Description                     |
-| -------- | ------------------------- | ------------------------------- |
+|----------|---------------------------|---------------------------------|
 | `GET`    | `/customers`              | Retrieve all customers          |
-| `GET`    | `/customers/{id}`         | Get customer details by ID      |
-| `POST`   | `/customers`              | Add a new customer              |
-| `PUT`    | `/customers/{customerId}` | Update customer information     |
-| `DELETE` | `/customers/{id}`         | Delete a customer               |
-| `GET`    | `/customers/search`       | Search for customers by keyword |
+| `GET`    | `/customers/{id}`         | Get customer by ID              |
+| `POST`   | `/customers`              | Add new customer                |
+| `PUT`    | `/customers/{customerId}` | Update customer details         |
+| `DELETE` | `/customers/{id}`         | Delete customer                 |
+| `GET`    | `/customers/search`       | Search customers by keyword     |
 
-#### Bank Account REST Controller (`bank-account-rest-controller`)
+#### Bank Account REST Controller
 
-| Method | Endpoint                               | Description                                |
-| ------ | -------------------------------------- | ------------------------------------------ |
-| `POST` | `/accounts/transfer`                   | Perform a fund transfer between accounts   |
-| `POST` | `/accounts/debit`                      | Debit an account                           |
-| `POST` | `/accounts/credit`                     | Credit an account                          |
-| `GET`  | `/accounts`                            | List all bank accounts                     |
-| `GET`  | `/accounts/{accountId}`                | Get account details by ID                  |
-| `GET`  | `/accounts/{accountId}/pageOperations` | Get paginated list of operations (history) |
+| Method | Endpoint                               | Description                            |
+|--------|----------------------------------------|----------------------------------------|
+| `POST` | `/accounts/transfer`                   | Transfer funds between accounts        |
+| `POST` | `/accounts/debit`                      | Debit money from an account            |
+| `POST` | `/accounts/credit`                     | Credit money to an account             |
+| `GET`  | `/accounts`                            | List all bank accounts                 |
+| `GET`  | `/accounts/{accountId}`                | View account details by ID             |
+| `GET`  | `/accounts/{accountId}/pageOperations` | View account transaction history (paginated) |
 
-These APIs allow external systems to interact with the application’s backend for account management, customer services, and financial operations.
+---
 
-### 4- Configuration
-The configuration of this application is found on the file `application.properties` containing :
-- Application Name: Sets the application name to Digital_Banking.
-- Server Port: The application runs on port 8082.
-- Database Configuration:
-- Connects to a MySQL database E-BANK.
-- Auto-creates the database if it does not exist.
-- Uses root as the username and no password (for local development).
-- JPA is configured to update the schema automatically.
-- Uses MariaDB dialect for Hibernate.
+## Configuration
 
-### 5- How to Run?
-Make sure to have Java 17+ installed, and MySQL server running on localhost (port 3306).
+The application's configuration is defined in the `application.properties` file:
 
-1- Clone the repository:
+```properties
+spring.application.name=Digital_Banking
+server.port=8082
 
+spring.datasource.url=jdbc:mysql://localhost:3306/E-BANK?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDBDialect
 ```
-git clone [<repository-url>](https://github.com/mohamed-ameziane/Digital-Bank)
-cd <project-directory>
-```
-2- Build the project:
 
-`mvn clean install`
+- **Application Name:** `Digital_Banking`
+- **Port:** `8082`
+- **Database:** MySQL (`E-BANK`)
+- **Auto Schema Update:** Enabled
+- **Hibernate Dialect:** MariaDB
 
-3- Run the application:
+---
 
-`mvn spring-boot:run`
+## How to Run?
 
-4- Access the application:
+### Prerequisites:
+- Java 17+
+- MySQL running on `localhost:3306`
 
-API Documentation (Swagger UI): < http://localhost:8082/swagger-ui.html >. REST endpoints can be tested using Postman or Swagger.
+### Steps:
 
-### 6- Simulation
-Here are some screenshots of the simulation of this application:
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/mohamed-ameziane/Digital-Bank
+   cd Digital-Bank
+   ```
+
+2. **Build the Project**
+   ```bash
+   mvn clean install
+   ```
+
+3. **Run the Application**
+   ```bash
+   mvn spring-boot:run
+   ```
+
+4. **Access the Application**
+   - Swagger UI: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+   - Use Postman or Swagger for testing endpoints
+
+---
+
+## 6- Simulation
+
+Below are screenshots simulating the application in action:
+
 #### 1. Customers
 ![Customers](images/Screenshot%202025-05-26%20222001.png)
+
 #### 2. Customer By ID
 ![Customer By Id](images/Screenshot%202025-05-26%20221936.png)
+
 #### 3. Search Customer By Keyword
 ![Search Customer By Keyword](images/Screenshot%202025-05-26%20223700.png)
 
+---
+
+## Conclusion
+
+This Spring Boot digital banking application demonstrates the implementation of core banking features using RESTful APIs, layered architecture, and secure database integration. It highlights the power of modern backend development with Java and Spring Boot, offering a strong foundation for scaling into microservices or integrating a frontend like Angular for full-stack capabilities.
