@@ -14,6 +14,17 @@ This application is a replica of a virtual bank application that shows the diffe
 ## Architecture
 The application type is monolithic...
 ### 1-Application Architecture
-![Diagram of system architecture](images/architecture.png)
+![Diagram of system architecture](images/Architecture.png)
 
-### 2- Database Architecture
+### 2- Application Layers
+- Controller Layer (REST APIs)
+- Service Layer (Business Logic)
+- Repository Layer (Data Access)
+- Madel Layer (Entities)
+
+## Database
+concerning the database used in this application, we used MySQL through xampp and phpMyAdmin
+
+### Database Schema
+![Diagram of classes](images/Class.png)
+
