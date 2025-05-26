@@ -111,5 +111,8 @@ cd <project-directory>
 API Documentation (Swagger UI): < http://localhost:8082/swagger-ui.html >. REST endpoints can be tested using Postman or Swagger.
 
 ### 6- Simulation
-
+here's some screenshots of the simulation of this application
+![Customers]("images/Screenshot 2025-05-26 222001.png")
+![Customer By Id]("images/Screenshot 2025-05-26 221936.png")
+![Search Customer By Keyword]("images/Screenshot 2025-05-26 223700.png")
 
